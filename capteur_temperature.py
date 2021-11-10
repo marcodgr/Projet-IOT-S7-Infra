@@ -37,7 +37,8 @@ if __name__ == "__main__":
     while True:
 
         if button_a.was_pressed():
-            radio.send(SimpleEncryption.encode(key,temperature()))
+            print(str(temperature()))
+            radio.send(SimpleEncryption.encode(key,str(temperature())))
             print("msg send")
 
         incoming = radio.receive()
