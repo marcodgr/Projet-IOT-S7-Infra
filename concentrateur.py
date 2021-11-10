@@ -77,26 +77,25 @@ class RadioProtocol:
 """
 Programme pour le concentrateur
 """
-
+from microbit import *;
 radio.config(channel=47, address=0x75626969)
 radio.on()
 
-if __name__ == "__main__":
+#if __name__ == "__main__":
     # Step 1 : Connexion à la passerelle
     # A FAIRE
 
 
-s = SimpleEncryption();
+
 key = "keyfoifefeoijfe"
 while True:
 
     if button_a.was_pressed():
-        radio.send(s.encode(key,'coucou')
-        print('message envoyé')
+        radio.send(SimpleEncryption.encode(key,'coucou'))
+        display.show("message envoyé")
 
     incoming = radio.receive()
 
     if incoming:
-        display.show(s.decode(key, incoming))
-        print("incoming", s.decode(key, incoming))
-
+        display.show(SimpleEncryption.decode(key, incoming))
+        #print("incoming", s.decode(key, incoming))
