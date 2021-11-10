@@ -1,6 +1,9 @@
-## A téléverser sur le microcontroleur (tp3.py)
 import radio
-from microbit import button_a, display, temperature
+from ssd1306 import initialize, clear_oled
+from microbit import button_a, display, temperature,sleep, pin0
+from bme280_light import bme280
+from ssd1306_text import add_text
+
 
 class SimpleEncryption:
     @staticmethod
@@ -15,7 +18,7 @@ class SimpleEncryption:
     @staticmethod
     def decode(key, enc):
         dec = []
-        enc = enc
+
         for i in range(len(enc)):
             key_c = key[i % len(key)]
             dec_c = chr((256 + ord(enc[i]) - ord(key_c)) % 256)
@@ -23,7 +26,7 @@ class SimpleEncryption:
         return "".join(dec)
 
 """
-Programme pour le concentrateur
+Programme pour le capteur de temperature
 """
 
 
@@ -33,6 +36,18 @@ radio.on()
 if __name__ == "__main__":
     # Step 1 : Connexion à la passerelle
     # A FAIRE
+
+    initialize(pinReset = pin0)
+    clear_oled()
+
+    add_text(1, 1, "Init...")
+
+
+    sleep(1000)
+    bme = bme280()
+
+    temp="null"
+
     key = "keyfoifefeoijfe"
     while True:
 
@@ -46,3 +61,6 @@ if __name__ == "__main__":
         if incoming:
             print("coded", incoming)
             print("incoming", SimpleEncryption.decode(key, incoming))
+        temp = str(temperature()) + " C"
+
+        add_text(1, 1, temp)

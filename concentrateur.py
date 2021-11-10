@@ -25,6 +25,7 @@ class SimpleEncryption:
 """
 Programme pour le concentrateur
 """
+
 radio.config(channel=47, address=0x75626969)
 radio.on()
 
