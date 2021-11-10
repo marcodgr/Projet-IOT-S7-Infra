@@ -81,21 +81,21 @@ from microbit import *;
 radio.config(channel=47, address=0x75626969)
 radio.on()
 
-#if __name__ == "__main__":
+if __name__ == "__main__":
     # Step 1 : Connexion à la passerelle
     # A FAIRE
 
 
 
-key = "keyfoifefeoijfe"
-while True:
+    key = "keyfoifefeoijfe"
+    while True:
 
-    if button_a.was_pressed():
-        radio.send(SimpleEncryption.encode(key,'coucou'))
-        display.show("message envoyé")
+        if button_a.was_pressed():
+            radio.send(SimpleEncryption.encode(key,'coucou'))
+            display.show("message envoyé")
 
-    incoming = radio.receive()
+        incoming = radio.receive()
 
-    if incoming:
-        display.show(SimpleEncryption.decode(key, incoming))
-        #print("incoming", s.decode(key, incoming))
+        if incoming:
+            display.show(SimpleEncryption.decode(key, incoming))
+            #print("incoming", s.decode(key, incoming))
