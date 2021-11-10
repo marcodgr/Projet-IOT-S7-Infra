@@ -1,6 +1,6 @@
 ## A téléverser sur le microcontroleur (tp3.py)
 import radio
-from microbit import button_a, display
+from microbit import button_a, display, temperature
 
 class SimpleEncryption:
     @staticmethod
@@ -25,8 +25,6 @@ class SimpleEncryption:
 """
 Programme pour le concentrateur
 """
-
-from microbit import *;
 
 
 radio.config(channel=47, address=0x75626969)
