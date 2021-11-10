@@ -1,5 +1,6 @@
 ## A téléverser sur le microcontroleur (tp3.py)
 import radio
+from microbit import button_a, display
 
 class SimpleEncryption:
     @staticmethod
@@ -21,81 +22,28 @@ class SimpleEncryption:
             dec.append(dec_c)
         return "".join(dec)
 
-class RadioProtocol:
-    def __init__(self, address, secret_key):
-        self.addr = address
-        self.secret_key = secret_key
-
-    def calculateChecksum(self, message):
-        nleft = len(message)
-        sum = 0
-        pos = 0
-        while nleft > 1:
-            sum = ord(message[pos]) * 256 + (ord(message[pos + 1]) + sum)
-            pos = pos + 2
-            nleft = nleft - 2
-        if nleft == 1:
-            sum = sum + ord(message[pos]) * 256
-
-        """sum = (sum >> 16) + (sum & 0xFFFF)
-        sum += (sum >> 16)
-        sum = (~sum & 0xFFFF)"""
-
-        return sum
-
-    def sendPacket(self, message, addrDest):
-        encoded_message = SimpleEncryption.encode(self.secret_key, message)
-        if len(encoded_message)<251:
-            packet = "" + str(self.addr) + "|" + str(len(message)) + "|" + str(addrDest) + "|" + encoded_message + "|" + str(self.calculateChecksum(encoded_message))
-            radio.send_bytes(packet)
-
-    def receivePacket(self, packet):
-        if packet is None:
-            return 0
-        else:
-            tabRes = packet.format(1).split("|")
-            stuff = dict()
-            stuff['addrSrc'] = tabRes[0]
-            stuff['lenMess'] = tabRes[1]
-            stuff['addrDest'] = tabRes[2]
-            stuff["encoded_message"] = tabRes[3]
-            stuff['message'] = SimpleEncryption.decode(self.secret_key, stuff["encoded_message"])
-            stuff['receivedCheckSum'] = tabRes[4]
-
-            if self.verifyCheckSum(stuff['receivedCheckSum'], self.calculateChecksum(stuff['encoded_message'])):
-                if self.addr == int(stuff['addrDest']):
-                    return stuff['message']
-                else:
-                    return -1
-            return "IT NO WORK"
-
-    def verifyCheckSum(self, checkSum, receivedCheckSum):
-        return int(checkSum) == receivedCheckSum
-
-
-
 """
 Programme pour le concentrateur
 """
+
 from microbit import *;
+
+
 radio.config(channel=47, address=0x75626969)
 radio.on()
 
 if __name__ == "__main__":
     # Step 1 : Connexion à la passerelle
     # A FAIRE
-
-
-
     key = "keyfoifefeoijfe"
     while True:
 
         if button_a.was_pressed():
             radio.send(SimpleEncryption.encode(key,temperature()))
-            display.show("message envoyé")
+            print("msg send")
 
         incoming = radio.receive()
 
         if incoming:
-            display.show(SimpleEncryption.decode(key, incoming))
-            #print("incoming", s.decode(key, incoming))
+            print("coded", incoming)
+            print("incoming", SimpleEncryption.decode(key, incoming))
