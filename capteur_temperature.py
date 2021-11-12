@@ -49,8 +49,12 @@ if __name__ == "__main__":
     key = "keyfoifefeoijfe"
     while True:
 
+
+        temp = str(temperature()) + " C       "
+        lum= str(display.read_light_level()) + "    "
+
+
         if button_a.was_pressed():
-            print(str(temperature()))
             radio.send(SimpleEncryption.encode(key,str(temperature())))
             print("msg send")
 
@@ -60,14 +64,18 @@ if __name__ == "__main__":
             choix=SimpleEncryption.decode(key, incoming)
             print("incoming", SimpleEncryption.decode(key, incoming))
 
+
         if choix == "TL":
-                temp = str(temperature()) + " C  " + str(display.read_light_level())
+            add_text(1, 1, temp)
+            add_text(1, 2, lum)
         elif choix == "LT":
-                temp =  str(display.read_light_level())+ "    "+ str(temperature()) + " C  "
+            add_text(1, 1, lum)
+            add_text(1, 2, temp)
+
 
         sending= str(temperature()) + ";" + str(display.read_light_level())
         radio.send(SimpleEncryption.encode(key, sending))
 
-        add_text(1, 1, temp)
+
 
 
