@@ -1,7 +1,7 @@
 import radio
 from ssd1306 import initialize, clear_oled
 from microbit import button_a, display, temperature,sleep, pin0
-from bme280_light import bme280
+
 from ssd1306_text import add_text
 
 
@@ -44,7 +44,7 @@ if __name__ == "__main__":
 
 
     sleep(1000)
-    bme = bme280()
+
 
     temp="null"
 
@@ -59,8 +59,13 @@ if __name__ == "__main__":
         incoming = radio.receive()
 
         if incoming:
-            print("coded", incoming)
+            choix=SimpleEncryption.decode(key, incoming)
             print("incoming", SimpleEncryption.decode(key, incoming))
-        temp = str(temperature()) + " C"
+
+        if choix == "TL":
+                temp = str(temperature()) + " C  " + str(display.read_light_level())
+        elif choix == "LT":
+                temp =  str(display.read_light_level())+ "    "+ str(temperature()) + " C  "
+
 
         add_text(1, 1, temp)
