@@ -44,5 +44,4 @@ if __name__ == "__main__":
         incoming = radio.receive()
 
         if incoming:
-            print("coded", incoming)
-            print("incoming", SimpleEncryption.decode(key, incoming))
+            print("I", SimpleEncryption.decode(key, incoming))
