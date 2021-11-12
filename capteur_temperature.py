@@ -65,6 +65,8 @@ if __name__ == "__main__":
         elif choix == "LT":
                 temp =  str(display.read_light_level())+ "    "+ str(temperature()) + " C  "
 
+        sending= str(temperature()) + ";" + str(display.read_light_level())
+        radio.send(SimpleEncryption.encode(key, sending))
 
         add_text(1, 1, temp)
 
