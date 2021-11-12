@@ -1,4 +1,3 @@
-## A téléverser sur le microcontroleur (tp3.py)
 import radio
 from microbit import button_a, display
 
@@ -32,13 +31,12 @@ radio.config(channel=47, address=0x75626969)
 radio.on()
 
 if __name__ == "__main__":
-    # Step 1 : Connexion à la passerelle
-    # A FAIRE
+
     key = "keyfoifefeoijfe"
     while True:
 
         if button_a.was_pressed():
-            radio.send(SimpleEncryption.encode(key, "coucou"))
+            radio.send(SimpleEncryption.encode(key, "TL"))
             print("msg send")
 
         incoming = radio.receive()
