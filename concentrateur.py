@@ -1,6 +1,5 @@
-## A téléverser sur le microcontroleur (tp3.py)
 import radio
-from microbit import button_a, display
+from microbit import button_a, display, uart
 
 
 class SimpleEncryption:
@@ -28,16 +27,22 @@ class SimpleEncryption:
 Programme pour le concentrateur
 """
 
+
 radio.config(channel=47, address=0x75626969)
 radio.on()
 
 if __name__ == "__main__":
-    # Step 1 : Connexion à la passerelle
-    # A FAIRE
+
     key = "keyfoifefeoijfe"
     while True:
+        if uart.any():
+            data = str(uart.read(), "UTF-8")
+            if data == "LT" or data == "TL":
+                radio.send(SimpleEncryption.encode(key, data))
 
-        if button_a.was_pressed():
+
+
+        if button_a.was_pressed(): #pour tester
             radio.send(SimpleEncryption.encode(key, "TL"))
             print("msg send")
 
