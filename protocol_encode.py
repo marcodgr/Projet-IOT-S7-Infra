@@ -1,6 +1,7 @@
 ## A téléverser sur le microcontroleur (tp3.py)
 import radio
 
+
 class SimpleEncryption:
     @staticmethod
     def encode(key, clear):
@@ -20,6 +21,7 @@ class SimpleEncryption:
             dec_c = chr((256 + ord(enc[i]) - ord(key_c)) % 256)
             dec.append(dec_c)
         return "".join(dec)
+
 
 class RadioProtocol:
     def __init__(self, address, secret_key):
@@ -45,8 +47,19 @@ class RadioProtocol:
 
     def sendPacket(self, message, addrDest):
         encoded_message = SimpleEncryption.encode(self.secret_key, message)
-        if len(encoded_message)<251:
-            packet = "" + str(self.addr) + "|" + str(len(message)) + "|" + str(addrDest) + "|" + encoded_message + "|" + str(self.calculateChecksum(encoded_message))
+        if len(encoded_message) < 251:
+            packet = (
+                ""
+                + str(self.addr)
+                + "|"
+                + str(len(message))
+                + "|"
+                + str(addrDest)
+                + "|"
+                + encoded_message
+                + "|"
+                + str(self.calculateChecksum(encoded_message))
+            )
             radio.send_bytes(packet)
 
     def receivePacket(self, packet):
@@ -55,16 +68,16 @@ class RadioProtocol:
         else:
             tabRes = packet.format(1).split("|")
             stuff = dict()
-            stuff['addrSrc'] = tabRes[0]
-            stuff['lenMess'] = tabRes[1]
-            stuff['addrDest'] = tabRes[2]
+            stuff["addrSrc"] = tabRes[0]
+            stuff["lenMess"] = tabRes[1]
+            stuff["addrDest"] = tabRes[2]
             stuff["encoded_message"] = tabRes[3]
-            stuff['message'] = SimpleEncryption.decode(self.secret_key, stuff["encoded_message"])
-            stuff['receivedCheckSum'] = tabRes[4]
+            stuff["message"] = SimpleEncryption.decode(self.secret_key, stuff["encoded_message"])
+            stuff["receivedCheckSum"] = tabRes[4]
 
-            if self.verifyCheckSum(stuff['receivedCheckSum'], self.calculateChecksum(stuff['encoded_message'])):
-                if self.addr == int(stuff['addrDest']):
-                    return stuff['message']
+            if self.verifyCheckSum(stuff["receivedCheckSum"], self.calculateChecksum(stuff["encoded_message"])):
+                if self.addr == int(stuff["addrDest"]):
+                    return stuff["message"]
                 else:
                     return -1
             return "IT NO WORK"

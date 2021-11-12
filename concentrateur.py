@@ -2,6 +2,7 @@
 import radio
 from microbit import button_a, display
 
+
 class SimpleEncryption:
     @staticmethod
     def encode(key, clear):
@@ -22,6 +23,7 @@ class SimpleEncryption:
             dec.append(dec_c)
         return "".join(dec)
 
+
 """
 Programme pour le concentrateur
 """
@@ -36,7 +38,7 @@ if __name__ == "__main__":
     while True:
 
         if button_a.was_pressed():
-            radio.send(SimpleEncryption.encode(key,'coucou'))
+            radio.send(SimpleEncryption.encode(key, "coucou"))
             print("msg send")
 
         incoming = radio.receive()

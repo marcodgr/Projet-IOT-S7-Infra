@@ -1,6 +1,6 @@
 import radio
 from ssd1306 import initialize, clear_oled
-from microbit import button_a, display, temperature,sleep, pin0
+from microbit import button_a, display, temperature, sleep, pin0
 
 from ssd1306_text import add_text
 
@@ -25,6 +25,7 @@ class SimpleEncryption:
             dec.append(dec_c)
         return "".join(dec)
 
+
 """
 Programme pour le capteur de temperature
 """
@@ -37,37 +38,32 @@ if __name__ == "__main__":
     # Step 1 : Connexion à la passerelle
     # A FAIRE
 
-    initialize(pinReset = pin0)
+    initialize(pinReset=pin0)
     clear_oled()
 
     add_text(1, 1, "Init...")
 
-
     sleep(1000)
 
-
-    temp="null"
-    choix=""
+    temp = "null"
+    choix = ""
     key = "keyfoifefeoijfe"
     while True:
 
         if button_a.was_pressed():
             print(str(temperature()))
-            radio.send(SimpleEncryption.encode(key,str(temperature())))
+            radio.send(SimpleEncryption.encode(key, str(temperature())))
             print("msg send")
 
         incoming = radio.receive()
 
         if incoming:
-            choix=SimpleEncryption.decode(key, incoming)
+            choix = SimpleEncryption.decode(key, incoming)
             print("incoming", SimpleEncryption.decode(key, incoming))
 
         if choix == "TL":
-                temp = str(temperature()) + " C  " + str(display.read_light_level())
+            temp = str(temperature()) + " C  " + str(display.read_light_level())
         elif choix == "LT":
-                temp =  str(display.read_light_level())+ "    "+ str(temperature()) + " C  "
-
+            temp = str(display.read_light_level()) + "    " + str(temperature()) + " C  "
 
         add_text(1, 1, temp)
-
-

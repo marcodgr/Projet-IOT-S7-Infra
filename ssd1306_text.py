@@ -16,4 +16,4 @@ def add_text(x, y, text, draw=1):
         set_zoom(1)
         set_pos(x * 5, y)
         ind0 = x * 10 + y * 128 + 1
-        i2c.write(ADDR, b'\x40' + screen[ind0:ind + 1])
+        i2c.write(ADDR, b"\x40" + screen[ind0 : ind + 1])
