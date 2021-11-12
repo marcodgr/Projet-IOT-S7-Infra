@@ -47,7 +47,7 @@ if __name__ == "__main__":
 
 
     temp="null"
-
+    choix=""
     key = "keyfoifefeoijfe"
     while True:
 
@@ -69,3 +69,5 @@ if __name__ == "__main__":
 
 
         add_text(1, 1, temp)
+
+
