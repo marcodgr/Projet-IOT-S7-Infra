@@ -33,18 +33,15 @@ radio.on()
 
 if __name__ == "__main__":
 
-    key = "keyfoifefeoijfe"
+    key = "1a1c994a-013e-48b8-b451-eed990554f05"
     while True:
         if uart.any():
             data = str(uart.read(), "UTF-8")
             if data == "LT" or data == "TL":
                 radio.send(SimpleEncryption.encode(key, data))
 
-
-
-        if button_a.was_pressed(): #pour tester
+        if button_a.was_pressed():  # pour tester
             radio.send(SimpleEncryption.encode(key, "TL"))
-            print("msg send")
 
         incoming = radio.receive()
 
