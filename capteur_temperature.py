@@ -18,7 +18,6 @@ class SimpleEncryption:
     @staticmethod
     def decode(key, enc):
         dec = []
-
         for i in range(len(enc)):
             key_c = key[i % len(key)]
             dec_c = chr((256 + ord(enc[i]) - ord(key_c)) % 256)
@@ -42,7 +41,7 @@ if __name__ == "__main__":
     add_text(1, 1, "Init...")
 
     sleep(1000)
-
+    choix = ""
     key = "1a1c994a-013e-48b8-b451-eed990554f05"
     while True:
 
@@ -68,5 +67,5 @@ if __name__ == "__main__":
             add_text(1, 1, lum)
             add_text(1, 2, temp)
 
-        sending = str(temperature()) + ";" + str(display.read_light_level() + ";AA")  # Ajout du code du capteur
+        sending = str(temperature()) + ";" + str(display.read_light_level()) + ";AA"  # Ajout du code du capteur
         radio.send(SimpleEncryption.encode(key, sending))
