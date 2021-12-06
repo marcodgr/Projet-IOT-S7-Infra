@@ -5,6 +5,13 @@ from microbit import button_a, display, temperature, sleep, pin0
 from ssd1306_text import add_text
 
 
+"""
+SimpleEncryption (c) v1shwa
+Vigenere Cipher 
+https://gist.github.com/v1shwa/148ec11d0a75be0e5b2af1c449558ba4
+"""
+
+
 class SimpleEncryption:
     @staticmethod
     def encode(key, clear):

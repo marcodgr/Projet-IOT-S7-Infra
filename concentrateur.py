@@ -1,5 +1,12 @@
 import radio
-from microbit import button_a, display, uart
+from microbit import button_a, display, uart, temperature, sleep
+import random
+
+"""
+SimpleEncryption (c) v1shwa
+Vigenere Cipher 
+https://gist.github.com/v1shwa/148ec11d0a75be0e5b2af1c449558ba4
+"""
 
 
 class SimpleEncryption:
@@ -47,3 +54,9 @@ if __name__ == "__main__":
 
         if incoming:
             print("I", SimpleEncryption.decode(key, incoming))
+        else:
+            no_capteur = ""
+            for _ in range(2):
+                no_capteur += random.choice(["A", "B", "C", "D", "E", "F"])
+            print("I", str(temperature()) + ";" + str(display.read_light_level()) + ";" + no_capteur)
+            sleep(1000)
