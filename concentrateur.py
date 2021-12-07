@@ -4,7 +4,7 @@ import random
 
 """
 SimpleEncryption (c) v1shwa
-Vigenere Cipher 
+Vigenere Cipher
 https://gist.github.com/v1shwa/148ec11d0a75be0e5b2af1c449558ba4
 """
 
@@ -35,12 +35,12 @@ Programme pour le concentrateur
 """
 
 
-radio.config(channel=47, address=0x75626969)
+radio.config(channel=47, address=0x75686979)
 radio.on()
 
 if __name__ == "__main__":
 
-    key = "1a1c994a-013e-48b8-b451-eed990554f05"
+    key = "1a1c994a-013e-48b8-b451-eed000554f05"
     while True:
         if uart.any():
             data = str(uart.read(), "UTF-8")
@@ -53,8 +53,10 @@ if __name__ == "__main__":
         incoming = radio.receive()
 
         if incoming:
-            print("I", SimpleEncryption.decode(key, incoming))
-        else:
+            result =  SimpleEncryption.decode(key, incoming)
+            if result[0] == "I":
+                print(result)
+        if False:
             no_capteur = ""
             for _ in range(2):
                 no_capteur += random.choice(["A", "B", "C", "D", "E", "F"])

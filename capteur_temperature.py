@@ -7,7 +7,7 @@ from ssd1306_text import add_text
 
 """
 SimpleEncryption (c) v1shwa
-Vigenere Cipher 
+Vigenere Cipher
 https://gist.github.com/v1shwa/148ec11d0a75be0e5b2af1c449558ba4
 """
 
@@ -37,7 +37,7 @@ Programme pour le capteur de temperature
 """
 
 
-radio.config(channel=47, address=0x75626969)
+radio.config(channel=47, address=0x75686979)
 radio.on()
 
 if __name__ == "__main__":
@@ -49,13 +49,13 @@ if __name__ == "__main__":
 
     sleep(1000)
     choix = ""
-    key = "1a1c994a-013e-48b8-b451-eed990554f05"
+    key = "1a1c994a-013e-48b8-b451-eed000554f05"
     while True:
 
         sleep(1000)
 
         temp = str(temperature()) + " C       "
-        lum = str(display.read_light_level()) + "    "
+        lum = str(display.read_light_level()) + " lux  "
 
         if button_a.was_pressed():
             radio.send(SimpleEncryption.encode(key, str(temperature())))
@@ -74,5 +74,6 @@ if __name__ == "__main__":
             add_text(1, 1, lum)
             add_text(1, 2, temp)
 
-        sending = str(temperature()) + ";" + str(display.read_light_level()) + ";AA"  # Ajout du code du capteur
+        sending = "I " + str(temperature()) + ";" + str(display.read_light_level()) + ";AA"  # Ajout du code du capteur
+        print(sending)
         radio.send(SimpleEncryption.encode(key, sending))
